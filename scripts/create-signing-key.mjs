@@ -1,0 +1,18 @@
+import { mkdirSync, existsSync, writeFileSync, chmodSync } from 'node:fs';
+import { randomBytes } from 'node:crypto';
+import { homedir } from 'node:os';
+import { resolve } from 'node:path';
+import { spawnSync } from 'node:child_process';
+const directory = resolve(process.argv[2] ?? `${homedir()}/.local/share/curated-phone/signing`);
+if (existsSync(directory)) throw new Error('Refusing to replace an existing signing identity');
+mkdirSync(directory, { recursive: true, mode: 0o700 });
+const password = randomBytes(32).toString('base64url');
+const file = resolve(directory, 'curated-phone.jks');
+const passwordFile = resolve(directory, 'password');
+writeFileSync(passwordFile, password, { mode: 0o600 });
+const command = process.env.JAVA_HOME ? resolve(process.env.JAVA_HOME, 'bin/keytool') : 'keytool';
+const result = spawnSync(command, ['-genkeypair', '-keystore', file, '-storetype', 'JKS', '-storepass:file', passwordFile, '-keypass:file', passwordFile, '-alias', 'curated-phone', '-keyalg', 'RSA', '-keysize', '3072', '-validity', '10000', '-dname', 'CN=Anton Verhasselt, O=Curated Phone, C=BE'], { stdio: ['ignore', 'pipe', 'pipe'] });
+if (result.status !== 0) throw new Error('Keystore generation failed; inspect keytool installation');
+chmodSync(file, 0o600);
+writeFileSync(resolve(directory, 'signing-config.json'), JSON.stringify({ CURATED_KEYSTORE_FILE: file, CURATED_KEYSTORE_PASSWORD: password, CURATED_KEY_ALIAS: 'curated-phone', CURATED_KEY_PASSWORD: password }, null, 2), { mode: 0o600 });
+console.log(`Created stable release signing identity at ${directory}. Back up this directory privately; no passwords were printed.`);

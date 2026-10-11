@@ -1,0 +1,16 @@
+.env
+.env.*
+!.env.example
+**/node_modules/
+**/local.properties
+**/build/
+**/.gradle/
+*.jks
+*.keystore
+keystore.properties
+.secrets/
+.tools/
+coverage/
+.DS_Store
+*.log
+android/app/libs/knoxsdk.jar

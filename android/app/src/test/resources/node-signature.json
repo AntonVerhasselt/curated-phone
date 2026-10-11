@@ -1,0 +1,8 @@
+{
+  "publicKey": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEnXIGQtF5/hQiud+VkNHgobrf3+ll\nyQEX9wZey1gjb7aB4GepiljkaPWMgL161F9ILUsE2/aRGzIlZdlEGzvvkA==\n-----END PUBLIC KEY-----\n",
+  "envelope": {
+    "payload": "{\"schemaVersion\":1,\"deviceId\":\"fixture-device\",\"requestId\":\"fixture-request\",\"approvalId\":\"fixture-approval\",\"purpose\":\"settings\",\"requestDigest\":\"fixture-digest\",\"basePolicyVersion\":0,\"baseGuardianVersion\":0,\"targetPolicyVersion\":1,\"targetGuardianVersion\":1,\"snapshot\":{\"policy\":{\"schemaVersion\":1,\"appPolicyMode\":\"blocklist\",\"blockedAppPackageIds\":[\"com.instagram.android\"],\"categories\":[],\"feeds\":[],\"customDomains\":[\"example.org\"]},\"primaryEmail\":\"primary@example.org\",\"backupEmail\":\"backup@example.org\"},\"issuedAt\":1700000000000,\"expiresAt\":1700604800000}",
+    "signature": "MEUCIGLzlmexcmNFZQmAB/iU1kukb/fXzbl+VFxVp7cpj99CAiEA+1qhn4rzK9yLtBqWknJhEAi7kA8BHYkzHtbeWj48XWA=",
+    "keyId": "fixture-p256-1"
+  }
+}

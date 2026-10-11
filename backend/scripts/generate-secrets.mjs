@@ -1,0 +1,11 @@
+import { randomBytes, generateKeyPairSync } from 'node:crypto';
+import { mkdirSync, writeFileSync, existsSync } from 'node:fs';
+import { resolve } from 'node:path';
+const directory = resolve(process.argv[2] ?? '../.secrets/development');
+if (existsSync(directory)) throw new Error('Refusing to replace existing keys. Choose a new private directory.');
+mkdirSync(directory, { recursive: true, mode: 0o700 });
+const { privateKey, publicKey } = generateKeyPairSync('ec', { namedCurve: 'prime256v1', privateKeyEncoding: { type: 'pkcs8', format: 'pem' }, publicKeyEncoding: { type: 'spki', format: 'pem' } });
+const config = { OTP_HMAC_SECRET: randomBytes(32).toString('base64'), DEVICE_TOKEN_HMAC_SECRET: randomBytes(32).toString('base64'), APPROVAL_SIGNING_PRIVATE_KEY: privateKey, APPROVAL_SIGNING_KEY_ID: directory.includes('production') ? 'production-p256-1' : 'development-p256-1' };
+writeFileSync(resolve(directory, 'convex-secrets.json'), JSON.stringify(config, null, 2), { mode: 0o600 });
+writeFileSync(resolve(directory, 'approval-public-key.pem'), publicKey, { mode: 0o644 });
+console.log(`Created protected secrets at ${directory}; values were not printed.`);

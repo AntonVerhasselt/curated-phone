@@ -1,0 +1,2 @@
+-keep class com.samsung.android.knox.** { *; }
+-keep class be.anton.curatedphone.knox.** { *; }

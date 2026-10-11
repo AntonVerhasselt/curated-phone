@@ -1,0 +1,27 @@
+{
+  "name": "curated-phone-backend",
+  "version": "1.0.0",
+  "description": "Device-authenticated Convex approval backend for Curated Phone",
+  "scripts": {
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "dev": "convex dev",
+    "deploy": "convex deploy",
+    "secrets": "node scripts/generate-secrets.mjs",
+    "smoke": "node scripts/smoke-http.mjs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+    "@convex-dev/resend": "0.2.9",
+    "convex": "1.46.0"
+  },
+  "devDependencies": {
+    "@types/node": "26.6.5",
+    "convex-test": "0.0.61",
+    "typescript": "7.0.2",
+    "vitest": "5.0.3"
+  }
+}
